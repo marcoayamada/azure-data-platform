@@ -13,6 +13,7 @@ on:
 jobs:
   deploy-virtual-network-template:
     runs-on: ubuntu-latest
+    environment: develop
     steps:
       - name: Checkout source code
         uses: actions/checkout@master
@@ -20,13 +21,13 @@ jobs:
       - name: Login to Azure
         uses: azure/actions/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ develop.AZURE_CREDENTIALS }}
 
       - name: Deploy ARM Template
         uses: azure/arm-deploy@v1
         with:
           scope: resourcegroup
-          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          resourceGroupName: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          subscriptionId: ${{ develop.AZURE_SUBSCRIPTION_ID }}
+          resourceGroupName: ${{ develop.AZURE_RESOURCE_GROUP }}
           template: ./azuredeploy.json
           parameters: ./azuredeploy.parameters.dev.json
