@@ -6,13 +6,10 @@ on:
     branches:
       - develop-**
 
-#env:
-#  AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}   # set this to your Azure Subscription Id
-#  AZURE_RESOURCE_GROUP: ${{ secrets.AZURE_RESOURCE_GROUP }}   # set this to your target resource group
-
 jobs:
   deploy-virtual-network-template:
     runs-on: ubuntu-latest
+    environment: develop
     steps:
       - name: Checkout source code
         uses: actions/checkout@master
@@ -28,5 +25,5 @@ jobs:
           scope: resourcegroup
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           resourceGroupName: ${{ secrets.AZURE_RESOURCE_GROUP }}
-          template: ./azuredeploy.json
-          parameters: ./azuredeploy.parameters.dev.json
+          template: ./environments/develop/azuredeploy.json
+          parameters: ./environments/develop/azuredeploy.parameters.dev.json
