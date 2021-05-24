@@ -25,5 +25,5 @@ jobs:
           scope: resourcegroup
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           resourceGroupName: ${{ secrets.AZURE_RESOURCE_GROUP }}
-          template: /environments/develop/azuredeploy.json
-          parameters: /environments/develop/azuredeploy.parameters.dev.json
+          template: ./environments/develop/azuredeploy.json
+          parameters: ./environments/develop/azuredeploy.parameters.dev.json
