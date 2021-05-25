@@ -15,8 +15,8 @@ jobs:
         run: |
           az deployment group what-if \
           --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
-          --template-file ./environments/develop/azuredeploy.json \
-          --parameters ./environments/develop/azuredeploy.parameters.dev.json \
+          --template-file /environments/develop/azuredeploy.json \
+          --parameters /environments/develop/azuredeploy.parameters.dev.json \
           --mode Complete \
           --no-pretty-print
 
