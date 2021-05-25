@@ -25,7 +25,7 @@ jobs:
           az deployment group what-if \
           --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
           --template-file azuredeploy.json \
-          --parameters azuredeploy.parameters.dev.json \
+          --parameters azuredeploy.parameters.prod.json \
           --mode Complete \
           --no-pretty-print
 
