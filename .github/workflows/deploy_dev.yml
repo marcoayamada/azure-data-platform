@@ -12,11 +12,13 @@ jobs:
     environment: develop
     steps:
       - name: Run what-if test
+        working-directory: ./environments/develop
         run: |
+          ls -la |
           az deployment group what-if \
           --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
-          --template-file /environments/develop/azuredeploy.json \
-          --parameters /environments/develop/azuredeploy.parameters.dev.json \
+          --template-file azuredeploy.json \
+          --parameters azuredeploy.parameters.dev.json \
           --mode Complete \
           --no-pretty-print
 
