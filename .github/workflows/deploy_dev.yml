@@ -14,13 +14,7 @@ jobs:
       - name: Run what-if test
         working-directory: ./environments/develop
         run: |
-          ls -la |
-          az deployment group what-if \
-          --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
-          --template-file azuredeploy.json \
-          --parameters azuredeploy.parameters.dev.json \
-          --mode Complete \
-          --no-pretty-print
+          ls -la
 
   deploy:
     runs-on: ubuntu-latest
