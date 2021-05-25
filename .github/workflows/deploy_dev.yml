@@ -11,13 +11,23 @@ jobs:
     runs-on: ubuntu-latest
     environment: develop
     steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Login to Azure
+        uses: azure/actions/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Run what-if test
-        run: az deployment group what-if \
-            --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
-            --template-file ./environments/develop/azuredeploy.json \
-            --parameters ./environments/develop/azuredeploy.parameters.dev.json \
-            --mode Complete \
-            --no-pretty-print
+        working-directory: ./environments/develop
+        run: |
+          az deployment group what-if \
+          --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+          --template-file azuredeploy.json \
+          --parameters azuredeploy.parameters.dev.json \
+          --mode Complete \
+          --no-pretty-print
 
   deploy:
     runs-on: ubuntu-latest
