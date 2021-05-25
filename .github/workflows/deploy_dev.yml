@@ -1,5 +1,5 @@
 
-name: Deploy ARM Template
+name: Test and deploy - DEVELOP
 
 on:
   push:
