@@ -12,7 +12,7 @@ jobs:
     environment: develop
     steps:
       - name: Run what-if test
-        working-directory: /environments/develop
+        working-directory: environments/develop
         run: |
           ls -la
 
