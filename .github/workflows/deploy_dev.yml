@@ -12,7 +12,9 @@ jobs:
     environment: develop
     steps:
       - name: Run what-if test
-        run: ls ./environments/develop/
+        run: |
+          cd .
+          ls -la
 
   deploy:
     runs-on: ubuntu-latest
