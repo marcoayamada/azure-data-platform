@@ -22,12 +22,14 @@ jobs:
       - name: Run what-if test
         working-directory: ./environments_template
         run: |
-          az deployment group what-if \
+          result=$(az deployment group what-if \
           --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
           --template-file azuredeploy.json \
           --parameters azuredeploy.parameters.dev.json \
-          --mode Complete \
-          --no-pretty-print
+          --mode Complete)|
+
+          echo "${result//${{ secrets.AZURE_SUBSCRIPTION_ID }}/00000000000000000}"
+        
 
   deploy:
     runs-on: ubuntu-latest
