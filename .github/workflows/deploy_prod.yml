@@ -4,12 +4,12 @@ name: Deploy ARM Template
 on:
   push:
     branches:
-      - develop-**
+      - master
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    environment: develop
+    environment: prod
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
@@ -31,7 +31,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    environment: develop
+    environment: prod
     needs: test
     steps:
       - name: Checkout source code
@@ -50,4 +50,4 @@ jobs:
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           resourceGroupName: ${{ secrets.AZURE_RESOURCE_GROUP }}
           template: azuredeploy.json
-          parameters: azuredeploy.parameters.dev.json
+          parameters: azuredeploy.parameters.prod.json
