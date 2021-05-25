@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Login to Azure
-        uses: azure/actions/login@v1
+        uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
@@ -38,16 +38,15 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Login to Azure
-        uses: azure/actions/login@v1
+        uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Deploy ARM Template
         uses: azure/arm-deploy@v1
         with:
-          working-directory: ./environments_template
           scope: resourcegroup
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           resourceGroupName: ${{ secrets.AZURE_RESOURCE_GROUP }}
-          template: azuredeploy.json
-          parameters: azuredeploy.parameters.dev.json
+          template: ./environments_template/azuredeploy.json
+          parameters: ./environments_template/azuredeploy.parameters.dev.json
