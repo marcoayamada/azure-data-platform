@@ -28,7 +28,8 @@
     },
 
     "variables": {
-        "StorageName": "[concat(parameters('environment'), uniqueString(resourceGroup().id))]"
+        "StorageName": "[concat(parameters('environment'), uniqueString(resourceGroup().id))]",
+        "EHNamespaceName": "[concat(parameters('environment'), '-', parameters('ehNamespaceName'))]"
     },
 
 
@@ -66,7 +67,7 @@
         {
             "type": "Microsoft.EventHub/namespaces",
             "apiVersion": "2017-04-01",
-            "name": "[concat(parameters('environment'), '-', parameters('ehNamespaceName'))]",
+            "name": "[variables('EHNamespaceName')]",
             "location": "[parameters('location')]",
             "sku": {
                 "name": "Basic",
@@ -81,10 +82,10 @@
         {
             "apiVersion": "2017-04-01",
             "type": "Microsoft.EventHub/namespaces/eventhubs",
-            "name": "[concat(parameters('environment'), '-', parameters('ehNamespaceName'), '/', parameters('ehName'))]",
+            "name": "[concat(variables('EHNamespaceName'), '/', parameters('ehName'))]",
             "location": "[parameters('location')]",
             "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('ehNamespaceName'))]"
+                "[resourceId('Microsoft.EventHub/namespaces', variables('EHNamespaceName'))]"
             ],
             "properties": {
                 "messageRetentionInDays": 1,

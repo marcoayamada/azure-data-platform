@@ -4,7 +4,7 @@
     "parameters": {
         "environment": { "value": "dev" },
         "containerName": { "value": "datalake-raw" },
-        "ehNamespaceName": {"value": "eh-namespace-default"},
+        "ehNamespaceName": {"value": "eh-default"},
         "ehName": {"value": "eh-datalake-raw"}
     }
 }
