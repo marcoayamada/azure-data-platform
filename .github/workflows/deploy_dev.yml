@@ -6,33 +6,12 @@ on:
     branches:
       - develop-**
 
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    environment: develop
-    steps:
-      - name: Checkout source code
-        uses: actions/checkout@v2
-
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Run what-if test
-        working-directory: ./environments_template
-        run: |
-          az deployment group what-if \
-          --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
-          --template-file azuredeploy.json \
-          --parameters azuredeploy.parameters.dev.json \
-          --mode Complete \
-          --no-pretty-print
+jobs:    
 
   deploy:
     runs-on: ubuntu-latest
     environment: develop
-    needs: test
+
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
