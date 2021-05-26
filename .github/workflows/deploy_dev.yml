@@ -28,7 +28,7 @@ jobs:
           --parameters azuredeploy.parameters.dev.json \
           --mode Complete)|
 
-          echo "$\{result//${{ secrets.AZURE_SUBSCRIPTION_ID }}/00000000000000000\}"
+          echo "$result"
         
 
   deploy:
