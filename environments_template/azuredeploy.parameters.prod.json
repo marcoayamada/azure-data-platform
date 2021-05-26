@@ -3,6 +3,8 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "environment": { "value": "prod" },
-        "containerName": { "value": "default" }
+        "containerName": { "value": "default" },
+        "ehNamespaceName": {"value": "eh-namespace-default"},
+        "ehName": {"value": "eh-datalake-raw"}
     }
 }
