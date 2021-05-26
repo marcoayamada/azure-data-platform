@@ -1,5 +1,5 @@
 
-name: Test and Depoy - PROD
+name: PROD - Test and Depoy
 
 on:
   push:
@@ -8,7 +8,31 @@ on:
 
 jobs:
 
+  test:
+    runs-on: ubuntu-latest
+    environment: prod
+    
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Validate ARM Template
+        uses: azure/arm-deploy@v1
+        with:
+          scope: resourcegroup
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          resourceGroupName: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          deploymentMode: Validate
+          template: ./environments_template/azuredeploy.json
+          parameters: ./environments_template/azuredeploy.parameters.prod.json
+
   deploy:
+    needs: test
     runs-on: ubuntu-latest
     environment: prod
     
@@ -26,6 +50,7 @@ jobs:
         with:
           scope: resourcegroup
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          deploymentMode: Incremental
           resourceGroupName: ${{ secrets.AZURE_RESOURCE_GROUP }}
           template: ./environments_template/azuredeploy.json
           parameters: ./environments_template/azuredeploy.parameters.prod.json
