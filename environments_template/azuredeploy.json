@@ -32,7 +32,8 @@
         "StorageAccountName": "[concat(parameters('environment'), uniqueString(resourceGroup().id))]",
         "StorageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', variables('StorageAccountName'))]",
         "StorageBlobName": "[concat(variables('StorageAccountName'), '/default/',parameters('environment'), '-', parameters('containerName'))]",
-        "EHNamespaceName": "[concat(parameters('environment'), '-', parameters('ehNamespaceName'))]"
+        "EHNamespaceName": "[concat(parameters('environment'), '-', parameters('ehNamespaceName'))]",
+        "EHName": "[concat(variables('EHNamespaceName'), '/', parameters('ehName'))]"
     },
 
 
@@ -83,7 +84,7 @@
         {
             "apiVersion": "2017-04-01",
             "type": "Microsoft.EventHub/namespaces/eventhubs",
-            "name": "[concat(variables('EHNamespaceName'), '/', parameters('ehName'))]",
+            "name": "[variables('EHName')]",
             "location": "[parameters('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.EventHub/namespaces', variables('EHNamespaceName'))]"
