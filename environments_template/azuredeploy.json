@@ -103,10 +103,9 @@
                         "properties": {
                             "storageAccountResourceId": "[variables('StorageAccountId')]",
                             "blobContainer": "[variables('StorageBlobName')]",
-                            "archiveNameFormat": "{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}"
+                            "archiveNameFormat": "{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}"
                         }
                     }
-
                 }
             }
         }
