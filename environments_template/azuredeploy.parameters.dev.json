@@ -5,6 +5,7 @@
         "environment": { "value": "dev" },
         "containerName": { "value": "datalake-raw" },
         "ehNamespaceName": {"value": "eh-default"},
-        "ehName": {"value": "eh-datalake-raw"}
+        "ehName": {"value": "eh-datalake-raw"},
+        "ehCaptureName":{ "value": "eh-datalake-raw-capture" }
     }
 }

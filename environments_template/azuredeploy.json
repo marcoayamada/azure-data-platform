@@ -24,11 +24,14 @@
             "defaultValue": "[resourceGroup().location]"
         },
         "ehNamespaceName": { "type": "string" },
-        "ehName": { "type": "string" }
+        "ehName": { "type": "string" },
+        "ehCaptureName":{ "type": "string" }
     },
 
     "variables": {
-        "StorageName": "[concat(parameters('environment'), uniqueString(resourceGroup().id))]",
+        "StorageAccountName": "[concat(parameters('environment'), uniqueString(resourceGroup().id))]",
+        "StorageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', variables('StorageAccountName'))]",
+        "StorageBlobName": "[concat(variables('StorageAccountName'), '/default/',parameters('environment'), '-', parameters('containerName'))]",
         "EHNamespaceName": "[concat(parameters('environment'), '-', parameters('ehNamespaceName'))]"
     },
 
@@ -38,7 +41,7 @@
         {
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2021-01-01",
-            "name": "[variables('StorageName')]",
+            "name": "[variables('StorageAccountName')]",
             "location": "[parameters('location')]",
             "sku": {
                 "name": "[parameters('storageSKU')]",
@@ -46,19 +49,18 @@
             },
             "kind": "StorageV2",
             "properties": {
-                "supportsHttpsTrafficOnly": true
+                "supportsHttpsTrafficOnly": true,
+                "allowBlobPublicAccess": false
             }
         },
 
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2021-01-01",
-            "name": "[
-                concat(variables('StorageName'), '/default/',
-                parameters('environment'), '-', parameters('containerName'))]",
+            "name": "[variables('StorageBlobName')]",
             "location": "[parameters('location')]",
             "dependsOn": [
-                "[variables('StorageName')]"
+                "[variables('StorageAccountName')]"
             ]
         },
 
@@ -70,13 +72,13 @@
             "name": "[variables('EHNamespaceName')]",
             "location": "[parameters('location')]",
             "sku": {
-                "name": "Basic",
-                "tier": "Basic",
+                "name": "Standard",
+                "tier": "Standard",
                 "capacity": 1
             },
             "properties": {
                 "isAutoInflateEnabled": false,
-                "maximumThroughputUnits": 0
+                "maximumThroughputUnits": 1
             }
         },
         {
@@ -88,8 +90,24 @@
                 "[resourceId('Microsoft.EventHub/namespaces', variables('EHNamespaceName'))]"
             ],
             "properties": {
-                "messageRetentionInDays": 1,
-                "partitionCount": 2
+                "messageRetentionInDays": 7,
+                "partitionCount": 1,
+                "captureDescription": {
+                    "enabled": true,
+                    "encoding": "Avro",
+                    "intervalInSeconds": 120,
+                    "sizeLimitInBytes": 10485760,
+                    "skipEmptyArchives": true,
+                    "destination": {
+                        "name": "[parameters('ehCaptureName')]",
+                        "properties": {
+                            "storageAccountResourceId": "[variables('StorageAccountId')]",
+                            "blobContainer": "[variables('StorageBlobName')]",
+                            "archiveNameFormat": "{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}"
+                        }
+                    }
+
+                }
             }
         }
 
