@@ -24,14 +24,11 @@
             "defaultValue": "[resourceGroup().location]"
         },
         "ehNamespaceName": { "type": "string" },
-        "ehName": { "type": "string" },
-        "ehCaptureName":{ "type": "string" }
+        "ehName": { "type": "string" }
     },
 
     "variables": {
         "StorageAccountName": "[concat(parameters('environment'), uniqueString(resourceGroup().id))]",
-        "StorageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', variables('StorageAccountName'))]",
-        "StorageBlobName": "[concat(variables('StorageAccountName'), '/default/',parameters('environment'), '-', parameters('containerName'))]",
         "EHNamespaceName": "[concat(parameters('environment'), '-', parameters('ehNamespaceName'))]",
         "EHName": "[concat(variables('EHNamespaceName'), '/', parameters('ehName'))]"
     },
@@ -58,7 +55,7 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2021-01-01",
-            "name": "[variables('StorageBlobName')]",
+            "name": "[concat(variables('StorageAccountName'), '/default/',parameters('environment'), '-', parameters('containerName'))]",
             "location": "[parameters('location')]",
             "dependsOn": [
                 "[variables('StorageAccountName')]"
@@ -90,6 +87,7 @@
                 "[resourceId('Microsoft.EventHub/namespaces', variables('EHNamespaceName'))]"
             ],
             "properties": {
+                "status": "Active",
                 "messageRetentionInDays": 7,
                 "partitionCount": 1,
                 "captureDescription": {
@@ -99,16 +97,15 @@
                     "sizeLimitInBytes": 10485760,
                     "skipEmptyArchives": true,
                     "destination": {
-                        "name": "[parameters('ehCaptureName')]",
+                        "name": "EventHubArchive.AzureBlockBlob",
                         "properties": {
-                            "storageAccountResourceId": "[variables('StorageAccountId')]",
-                            "blobContainer": "[variables('StorageBlobName')]",
+                            "storageAccountResourceId": "[resourceId('Microsoft.Storage/storageAccounts', variables('StorageAccountName'))]",
+                            "blobContainer": "[parameters('containerName')]",
                             "archiveNameFormat": "{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}"
                         }
                     }
                 }
             }
         }
-
     ]
 }
