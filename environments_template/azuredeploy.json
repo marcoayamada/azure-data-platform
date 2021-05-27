@@ -77,8 +77,7 @@
                 "capacity": 1
             },
             "properties": {
-                "isAutoInflateEnabled": false,
-                "maximumThroughputUnits": 1
+                "isAutoInflateEnabled": false
             }
         },
         {
