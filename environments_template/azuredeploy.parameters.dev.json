@@ -4,7 +4,11 @@
     "parameters": {
         "environment": { "value": "dev" },
         "containerName": { "value": "datalake-raw" },
-        "ehNamespaceName": {"value": "default-namespace"},
-        "ehName": {"value": "eh-datalake-raw"}
+        "ehNamespaceName": { "value": "default-namespace" },
+        "ehName": { "value": "eh-datalake-raw" },
+        "adbWorkspaceName": { "value": "dev-mark-test" },
+        "adbTier": { "value": "trial" },
+        "adbTagValues": { "value": {} }
+
     }
 }
