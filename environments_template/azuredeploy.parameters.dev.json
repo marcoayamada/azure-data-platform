@@ -6,7 +6,7 @@
         "containerName": { "value": "datalake-raw" },
         "ehNamespaceName": { "value": "default-namespace" },
         "ehName": { "value": "eh-datalake-raw" },
-        "adbWorkspaceName": { "value": "dev-mark-test" },
+        "adbWorkspaceName": { "value": "mark-test" },
         "adbTier": { "value": "trial" },
         "adbTagValues": { "value": {} }
 
