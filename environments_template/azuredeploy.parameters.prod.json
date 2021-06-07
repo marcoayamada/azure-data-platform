@@ -5,6 +5,9 @@
         "environment": { "value": "prod" },
         "containerName": { "value": "datalake-raw" },
         "ehNamespaceName": {"value": "eh-default"},
-        "ehName": {"value": "eh-datalake-raw"}
+        "ehName": {"value": "eh-datalake-raw"},
+        "adbWorkspaceName": { "value": "mark-test" },
+        "adbTier": { "value": "trial" },
+        "adbTagValues": { "value": {} }
     }
 }
