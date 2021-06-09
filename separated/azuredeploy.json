@@ -2,35 +2,25 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-
+    "baseUrl": {"type": "string"},
+    "baseBlob": {"type": "string"}
   },
-  "functions": [],
-  "variables": {
-    "templateBaseUrl":"https://raw.githubusercontent.com/marcoayamada/azure-data-platform/develop/separated/",
-    
-    "blobTemplateUrl": "[uri(variables('templateBaseUrl'), 'storage/blob.json')]",
-    "blobParametersUrl": "[uri(variables('templateBaseUrl'), 'storage/blob.parameters.json')]"
-  },
+  "variables": { },
   "resources": [
     {
-      "name": "siblingLinked",
+      "name": "storageBlob",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('blobTemplateUrl')]"
+          "uri": "[concat(parameters('baseUrl'), parameters('baseBlob'), 'template.json')]"
         },
         "parametersLink": {
-        "uri": "[variables('blobParametersUrl')]"
-      }
+          "uri": "[concat(parameters('baseUrl'), parameters('baseBlob'), 'template.parameters.json')]"
+        }
       }
     }
   ],
-  "outputs": {
-    "fromSibling": {
-      "type": "string",
-      "value": "[reference('siblingLinked').outputs.fromChild.value]"
-    }
-  }
+  "outputs": {  }
 }
