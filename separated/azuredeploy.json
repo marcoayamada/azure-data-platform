@@ -6,10 +6,10 @@
   },
   "functions": [],
   "variables": {
-    "templateBaseUrl":"https://raw.githubusercontent.com/marcoayamada/azure-data-platform/develop/separated/storage/blob.json",
+    "templateBaseUrl":"https://raw.githubusercontent.com/marcoayamada/azure-data-platform/develop/separated/",
     
-    "blobTemplateUrl": "https://raw.githubusercontent.com/marcoayamada/azure-data-platform/develop/separated/storage/blob.json",
-    "blobParametersUrl": "https://raw.githubusercontent.com/marcoayamada/azure-data-platform/develop/separated/storage/blob.parameters.json"
+    "blobTemplateUrl": "[uri(variables('templateBaseUrl'), 'storage/blob.json')]",
+    "blobParametersUrl": "[uri(variables('templateBaseUrl'), 'storage/blob.parameters.json')]"
   },
   "resources": [
     {
