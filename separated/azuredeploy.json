@@ -1,9 +1,16 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
-  "parameters": {},
+  "parameters": {
+
+  },
   "functions": [],
-  "variables": {},
+  "variables": {
+    "templateBaseUrl":"https://raw.githubusercontent.com/marcoayamada/azure-data-platform/develop/separated/",
+    
+    "blobTemplateUrl": "[uri(deployment().properties.templateLink.uri, 'storage/blob.json')]",
+    "blobParametersUrl": "[uri(deployment().properties.templateLink.uri, 'storage/blob.parameters.json')]"
+  },
   "resources": [
     {
       "name": "siblingLinked",
@@ -12,8 +19,11 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "relativePath": "./storage/blob.json"
-        }
+          "uri": "[variables('blobTemplateUrl')]"
+        },
+        "parametersLink": {
+        "uri": "[variables('blobParametersUrl')]"
+      }
       }
     }
   ],

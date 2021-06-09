@@ -2,8 +2,8 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "environment": { "type": "string" },
-        "containerName": { "type": "string" },
+        "environment": { "type": "string", "defaultValue": "dev" },
+        "containerName": { "type": "string", "defaultValue": "datalake-raw" },
         "storageSKU": {
             "type": "string",
             "defaultValue": "Standard_LRS"
