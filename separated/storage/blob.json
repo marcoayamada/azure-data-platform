@@ -1,0 +1,54 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "environment": { "type": "string" },
+        "containerName": { "type": "string" },
+        "storageSKU": {
+            "type": "string",
+            "defaultValue": "Standard_LRS"
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]"
+        }
+    },
+    "functions": [],
+    "variables": {
+        "StorageAccountName": "[concat(parameters('environment'), uniqueString(resourceGroup().id))]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2021-01-01",
+            "name": "[variables('StorageAccountName')]",
+            "location": "[parameters('location')]",
+            "sku": {
+                "name": "[parameters('storageSKU')]",
+                "tier": "Standard"
+            },
+            "kind": "StorageV2",
+            "properties": {
+                "supportsHttpsTrafficOnly": true,
+                "allowBlobPublicAccess": false
+            }
+        },
+
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+            "apiVersion": "2021-01-01",
+            "name": "[concat(variables('StorageAccountName'), '/default/', parameters('containerName'))]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[variables('StorageAccountName')]"
+            ]
+        }
+
+    ],
+    "outputs": {
+        "grandChild": {
+            "type": "string",
+            "value": "grandChild"
+        }
+    }
+}

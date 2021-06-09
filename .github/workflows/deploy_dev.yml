@@ -28,8 +28,8 @@ jobs:
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           resourceGroupName: ${{ secrets.AZURE_RESOURCE_GROUP }}
           deploymentMode: Validate
-          template: ./environments_template/azuredeploy.json
-          parameters: ./environments_template/azuredeploy.parameters.dev.json
+          template: ./separated/azuredeploy.json
+          parameters: ./separated/azuredeploy.parameters.json
 
   deploy:
     needs: test
@@ -52,5 +52,5 @@ jobs:
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           deploymentMode: Incremental
           resourceGroupName: ${{ secrets.AZURE_RESOURCE_GROUP }}
-          template: ./environments_template/azuredeploy.json
-          parameters: ./environments_template/azuredeploy.parameters.dev.json
+          template: ./separated/azuredeploy.json
+          parameters: ./separated/azuredeploy.parameters.json
