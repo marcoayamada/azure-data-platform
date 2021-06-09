@@ -3,6 +3,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "baseUrl": {"value": "https://raw.githubusercontent.com/marcoayamada/azure-data-platform/develop/separated/"},
-        "baseBlob":{"value": "storage/"}
+        "baseLinkedTemplateName": { "value": "template.json" },
+        "baseLinkedParametersName": { "value": "template.parameters.json" },
+        
+        "blobResourceName": { "value": "storageBlob" },
+        "pathBlob": {"value": "storage/"}
     }
 }

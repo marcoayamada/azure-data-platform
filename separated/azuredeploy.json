@@ -2,25 +2,31 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "baseUrl": {"type": "string"},
-    "baseBlob": {"type": "string"}
+    "baseUrl": { "type": "string" },
+    "baseLinkedTemplateName": {"type": "string"}, 
+    "baseLinkedParametersName": {"type": "string"},
+    "blobResourceName": { "type": "string" },
+    "pathBlob": { "type": "string" }
   },
-  "variables": { },
+  "variables": {
+    "blobTemplateLink": "[concat(parameters('baseUrl'), parameters('pathBlob'), parameters('baseLinkedTemplateName'))]",
+    "blobParametersLink": "[concat(parameters('baseUrl'), parameters('pathBlob'), parameters('baseLinkedParametersName'))]"
+  },
   "resources": [
     {
-      "name": "storageBlob",
+      "name": "[parameters('blobResourceName')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(parameters('baseUrl'), parameters('baseBlob'), 'template.json')]"
+          "uri": "[variables('blobTemplateLink')]"
         },
         "parametersLink": {
-          "uri": "[concat(parameters('baseUrl'), parameters('baseBlob'), 'template.parameters.json')]"
+          "uri": "[variables('blobParametersLink')]"
         }
       }
     }
   ],
-  "outputs": {  }
+  "outputs": {}
 }
