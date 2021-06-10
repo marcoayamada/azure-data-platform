@@ -6,7 +6,7 @@
         "baseLinkedTemplateName": { "value": "template.json" },
         "baseLinkedParametersName": { "value": "template.parameters.json" },
         
-        "blobResourceName": { "value": "storageBlob" },
+        "resourceName": { "value": "datalake" },
         "pathBlob": {"value": "storage/"}
     }
 }

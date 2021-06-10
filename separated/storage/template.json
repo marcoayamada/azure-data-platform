@@ -2,8 +2,7 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "environment": { "type": "string", "defaultValue": "dev" },
-        "containerName": { "type": "string", "defaultValue": "datalake-raw" },
+        "containerName": { "type": "string" },
         "storageSKU": {
             "type": "string",
             "defaultValue": "Standard_LRS"
@@ -15,7 +14,8 @@
     },
     "functions": [],
     "variables": {
-        "StorageAccountName": "[concat(parameters('environment'), uniqueString(resourceGroup().id))]"
+        "StorageAccountName": "[uniqueString(resourceGroup().id)]",
+        "BlobName": "[concat(variables('StorageAccountName'), '/default/', parameters('containerName'))]"
     },
     "resources": [
         {
@@ -37,7 +37,7 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2021-01-01",
-            "name": "[concat(variables('StorageAccountName'), '/default/', parameters('containerName'))]",
+            "name": "[variables('BlobName')]",
             "location": "[parameters('location')]",
             "dependsOn": [
                 "[variables('StorageAccountName')]"
@@ -46,9 +46,12 @@
 
     ],
     "outputs": {
-        "grandChild": {
-            "type": "string",
-            "value": "grandChild"
+        "storageLinked": {
+            "type": "object",
+            "value":{
+                "accountName": "[variables('StorageAccountName')]",
+                "blobName": "[variables('BlobName')]"
+            }
         }
     }
 }
