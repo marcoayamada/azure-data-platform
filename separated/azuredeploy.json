@@ -3,18 +3,17 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "baseUrl": { "type": "string" },
-    "baseLinkedTemplateName": {"type": "string"}, 
-    "baseLinkedParametersName": {"type": "string"},
+    "baseLinkedTemplateName": {"type": "string"},
+    
     "resourceName": { "type": "string" },
-    "pathBlob": { "type": "string" }
+    "datalakeName": { "type": "string" }
   },
   "variables": {
-    "blobTemplateLink": "[concat(parameters('baseUrl'), parameters('pathBlob'), parameters('baseLinkedTemplateName'))]",
-    "blobParametersLink": "[concat(parameters('baseUrl'), parameters('pathBlob'), parameters('baseLinkedParametersName'))]"
+    "blobTemplateLink": "[concat(parameters('baseUrl'), 'storage/', parameters('baseLinkedTemplateName'))]"
   },
   "resources": [
     {
-      "name": "[parameters('resourceName')]",
+      "name": "Storage",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "properties": {
@@ -22,14 +21,13 @@
         "templateLink": {
           "uri": "[variables('blobTemplateLink')]"
         },
-        "parametersLink": {
-          "uri": "[variables('blobParametersLink')]"
+        "parameters": {
+          "containerName": {"value": "[parameters('datalakeName')]"}
         }
       }
     }
   ],
   "outputs": {
-    "datalakeReturn": { "type": "object", "value": "[reference('datalake').outputs.storageLinked]"
-    }
+    "datalakeReturn": { "type": "object", "value": "[reference(parameters('resourceName')).outputs.storageLinked]" }
   }
 }
