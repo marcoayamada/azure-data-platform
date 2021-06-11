@@ -4,7 +4,6 @@
   "parameters": {
     "baseUrl": { "type": "string" },
     "baseLinkedTemplateName": {"type": "string"},
-    
     "resourceName": { "type": "string" },
     "datalakeName": { "type": "string" }
   },
