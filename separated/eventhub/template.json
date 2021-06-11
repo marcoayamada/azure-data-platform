@@ -2,21 +2,21 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "ehNamespaceName": { "type": "string" },
-        "ehName": { "type": "string" },
         "location": { "type": "string", "defaultValue": "[resourceGroup().location]" },
+        "ehNamespaceName": { "type": "string" , "defaultValue": "[variables('EhNamespaceName')]" },
+        "ehName": { "type": "string" },
         "StorageAccountName": { "type": "string" },
-        "containerName": { "type": "string" }
+        "datalakeName": { "type": "string" }
     },
     "functions": [],
     "variables": {
-        "EHNamespaceName": "[parameters('ehNamespaceName')]"
+        "EhNamespaceName": "[uniqueString(resourceGroup().id)]"
     },
     "resources": [
         {
             "type": "Microsoft.EventHub/namespaces",
             "apiVersion": "2017-04-01",
-            "name": "[variables('EHNamespaceName')]",
+            "name": "[parameters('EhNamespaceName')]",
             "location": "[parameters('location')]",
             "sku": {
                 "name": "Standard",
@@ -30,10 +30,10 @@
         {
             "apiVersion": "2017-04-01",
             "type": "Microsoft.EventHub/namespaces/eventhubs",
-            "name": "[concat(variables('EHNamespaceName'), '/', parameters('ehName'))]",
+            "name": "[concat(parameters('EhNamespaceName'), '/', parameters('ehName'))]",
             "location": "[parameters('location')]",
             "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces', variables('EHNamespaceName'))]"
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('EhNamespaceName'))]"
             ],
             "properties": {
                 "status": "Active",
@@ -49,7 +49,7 @@
                         "name": "EventHubArchive.AzureBlockBlob",
                         "properties": {
                             "storageAccountResourceId": "[resourceId('Microsoft.Storage/storageAccounts', parameters('StorageAccountName'))]",
-                            "blobContainer": "[parameters('containerName')]",
+                            "blobContainer": "[parameters('datalakeName')]",
                             "archiveNameFormat": "{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}"
                         }
                     }

@@ -3,12 +3,13 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "baseUrl": { "type": "string" },
-    "baseLinkedTemplateName": {"type": "string"},
-    "resourceName": { "type": "string" },
-    "datalakeName": { "type": "string" }
+    "baseLinkedTemplateName": { "type": "string" },
+    "datalakeName": { "type": "string" },
+    "ehName": { "type": "string" }
   },
   "variables": {
-    "blobTemplateLink": "[concat(parameters('baseUrl'), 'storage/', parameters('baseLinkedTemplateName'))]"
+    "datalakeTemplateLink": "[concat(parameters('baseUrl'), 'storage/', parameters('baseLinkedTemplateName'))]",
+    "eventhubTemplateLink": "[concat(parameters('baseUrl'), 'eventhub/', parameters('baseLinkedTemplateName'))]"
   },
   "resources": [
     {
@@ -18,15 +19,37 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('blobTemplateLink')]"
+          "uri": "[variables('datalakeTemplateLink')]"
         },
         "parameters": {
-          "datalakeName": {"value": "[parameters('datalakeName')]"}
+          "datalakeName": { "value": "[parameters('datalakeName')]" }
         }
       }
+    },
+    {
+      "name": "EventHub",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('eventhubTemplateLink')]"
+        },
+        "parameters": {
+          "ehName": { "value": "[parameters('ehName')]" },
+          "StorageAccountName": { "value": "[reference('EventHub').outputs.storageLinked.value.accountName]" },
+          "datalakeName": { "value": "[reference('EventHub').outputs.storageLinked.value.blobName]" }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', 'Storage')]"
+      ]
     }
   ],
   "outputs": {
-    "datalakeReturn": { "type": "object", "value": "[reference(parameters('resourceName')).outputs.storageLinked]" }
+    "datalakeReturn": {
+      "type": "object",
+      "value": "[reference('Storage').outputs.storageLinked]"
+    }
   }
 }

@@ -5,7 +5,8 @@
         "baseUrl": {"value": "https://raw.githubusercontent.com/marcoayamada/azure-data-platform/develop/separated/"},
         "baseLinkedTemplateName": { "value": "template.json" },
         
-        "resourceName":{ "value": "Storage" },
-        "datalakeName": { "value": "datalake-raw" }
+        "datalakeName": { "value": "datalake-raw" },
+
+        "ehName": { "value": "default" }
     }
 }
