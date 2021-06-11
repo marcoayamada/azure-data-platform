@@ -37,8 +37,8 @@
         },
         "parameters": {
           "ehName": { "value": "[parameters('ehName')]" },
-          "StorageAccountName": { "value": "[reference('EventHub').outputs.storageLinked.value.accountName]" },
-          "datalakeName": { "value": "[reference('EventHub').outputs.storageLinked.value.blobName]" }
+          "StorageAccountName": { "value": "[reference('Storage').outputs.datalakeReturn.value.accountName]" },
+          "datalakeName": { "value": "[reference('Storage').outputs.datalakeReturn.value.blobName]" }
         }
       },
       "dependsOn": [
