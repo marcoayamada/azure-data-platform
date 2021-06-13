@@ -22,29 +22,30 @@
           "uri": "[variables('datalakeTemplateLink')]"
         },
         "parameters": {
+          "accountName": { "value": "[concat('false', uniqueString(resourceGroup().id))]" },
           "datalakeName": { "value": "[parameters('datalakeName')]" }
         }
       }
-    },
-    {
-      "name": "EventHub",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2020-10-01",
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('eventhubTemplateLink')]"
-        },
-        "parameters": {
-          "ehName": { "value": "[parameters('ehName')]" },
-          "StorageAccountName": { "value": "[reference('Storage').outputs.datalakeReturn.value.accountName]" },
-          "datalakeName": { "value": "[reference('Storage').outputs.datalakeReturn.value.blobName]" }
-        }
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Resources/deployments', 'Storage')]"
-      ]
-    }
+    }//,
+    // {
+    //   "name": "EventHub",
+    //   "type": "Microsoft.Resources/deployments",
+    //   "apiVersion": "2020-10-01",
+    //   "properties": {
+    //     "mode": "Incremental",
+    //     "templateLink": {
+    //       "uri": "[variables('eventhubTemplateLink')]"
+    //     },
+    //     "parameters": {
+    //       "ehName": { "value": "[parameters('ehName')]" },
+    //       "StorageAccountName": { "value": "[reference('Storage').outputs.datalakeReturn.value.accountName]" },
+    //       "datalakeName": { "value": "[reference('Storage').outputs.datalakeReturn.value.blobName]" }
+    //     }
+    //   },
+    //   "dependsOn": [
+    //     "[resourceId('Microsoft.Resources/deployments', 'Storage')]"
+    //   ]
+    // }
   ],
   "outputs": {
     "datalakeReturn": {
