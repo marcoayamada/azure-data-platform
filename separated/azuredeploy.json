@@ -39,8 +39,8 @@
         "parameters": {
           "ehNamespaceName": { "value": "[concat('false', uniqueString(resourceGroup().id))]" },
           "ehName": { "value": "[parameters('ehName')]" },
-          "StorageAccountName": { "value": "[reference('Storage').outputs.datalakeReturn.value.accountName]" },
-          "datalakeName": { "value": "[reference('Storage').outputs.datalakeReturn.value.blobName]" }
+          "StorageAccountName": { "value": "[reference('Storage').outputs.datalakeReturn.value.storageLinked.accountName]" },
+          "datalakeName": { "value": "[reference('Storage').outputs.datalakeReturn.value.storageLinked.blobName]" }
         }
       },
       "dependsOn": [
