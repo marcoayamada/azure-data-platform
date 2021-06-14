@@ -17,7 +17,7 @@
     "variables": {
         "StorageAccountName": "[if(
                 contains(parameters('accountName'), 'false'), 
-                concat('storageAccount', uniqueString(resourceGroup().id)), 
+                concat('storageaccount', uniqueString(resourceGroup().id)), 
                 parameters('accountName'))]",
         "BlobName": "[concat(variables('StorageAccountName'), '/default/', parameters('datalakeName'))]"
     },
