@@ -3,14 +3,14 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "location": { "type": "string", "defaultValue": "[resourceGroup().location]" },
-        "ehNamespaceName": { "type": "string" , "defaultValue": null },
+        "ehNamespaceName": { "type": "string" , "defaultValue": "false" },
         "ehName": { "type": "string" },
         "StorageAccountName": { "type": "string" },
         "datalakeName": { "type": "string" }
     },
     "functions": [],
     "variables": {
-        "EhNamespaceName": "[coalesce(parameters('ehNamespaceName'), uniqueString(resourceGroup().id))]"
+        "EhNamespaceName": "[if(contains(parameters('ehNamespaceName'), 'false'), uniqueString(resourceGroup().id), parameters('ehNamespaceName'))]"
     },
     "resources": [
         {
