@@ -15,7 +15,10 @@
     },
     "functions": [],
     "variables": {
-        "StorageAccountName": "[if(contains(parameters('accountName'), 'false'), uniqueString(resourceGroup().id), parameters('accountName'))]",
+        "StorageAccountName": "[if(
+                contains(parameters('accountName'), 'false'), 
+                concat('storageAccount', uniqueString(resourceGroup().id)), 
+                parameters('accountName'))]",
         "BlobName": "[concat(variables('StorageAccountName'), '/default/', parameters('datalakeName'))]"
     },
     "resources": [
@@ -51,7 +54,7 @@
             "type": "object",
             "value": {
                 "accountName": "[variables('StorageAccountName')]",
-                "blobName": "[variables('BlobName')]"
+                "blobName": "[parameters('datalakeName')]"
             }
         }
     }

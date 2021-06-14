@@ -10,7 +10,10 @@
     },
     "functions": [],
     "variables": {
-        "EhNamespaceName": "[if(contains(parameters('ehNamespaceName'), 'false'), uniqueString(resourceGroup().id), parameters('ehNamespaceName'))]"
+        "EhNamespaceName": "[if(
+                            contains(parameters('ehNamespaceName'), 'false'), 
+                            concat('ehNamespace', uniqueString(resourceGroup().id)), 
+                            parameters('ehNamespaceName'))]"
     },
     "resources": [
         {
